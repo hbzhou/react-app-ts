@@ -6,6 +6,7 @@ import List from "./components/List";
 import "./App.css";
 import Incrementor from "./components/Incrementor";
 import { useNumber } from "./hooks/hooks";
+import Button from "./components/Button";
 
 function App() {
   const newTodoRef = useRef<HTMLInputElement>(null);
@@ -46,13 +47,20 @@ function App() {
         return (
           <div key={todo.id}>
             {todo.text}
-            <button onClick={() => dispatch({ type: "REMOVE", id: todo.id })}>Remove</button>
+            <Button
+              style={{
+                border: "1px solid green",
+              }}
+              onClick={() => dispatch({ type: "REMOVE", id: todo.id })}
+            >
+              Remove
+            </Button>
           </div>
         );
       })}
       <div>
         <input type='text' ref={newTodoRef} />
-        <button onClick={onAddTodo}>Add</button>
+        <Button onClick={onAddTodo}>Add</Button>
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
-import Heading from "./components/Heading";
-import Box from "./components/Box";
-import List from "./components/List";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
-import Incrementor from "./components/Incrementor";
-import { useNumber } from "./hooks/useNumber.hook";
+import Box from "./components/Box";
 import Button from "./components/Button";
+import Heading from "./components/Heading";
+import Incrementor from "./components/Incrementor";
+import List from "./components/List";
+import UL from "./components/UL";
+import { useNumber } from "./hooks/useNumber.hook";
 import { useTodos } from "./hooks/useTodos.hook";
 
 function App() {
@@ -40,16 +41,19 @@ function App() {
       <Box>{JSON.stringify(payload)}</Box>
       <Incrementor value={value} setValue={setValue} />
       <Heading title='Todos' />
-      {todos.map((todo) => {
-        return (
-          <div key={todo.id}>
-            {todo.text}
-            <Button style={{ border: "1px solid green" }} onClick={() => removeTodo(todo.id)}>
-              Remove
-            </Button>
-          </div>
-        );
-      })}
+      <UL
+        items={todos}
+        render={(todo) => {
+          return (
+            <>
+              {todo.text}
+              <Button style={{ border: "1px solid green" }} onClick={() => removeTodo(todo.id)}>
+                Remove
+              </Button>
+            </>
+          );
+        }}
+      />
       <div>
         <input type='text' ref={newTodoRef} />
         <Button onClick={onAddTodo}>Add</Button>

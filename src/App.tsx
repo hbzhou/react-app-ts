@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useReducer, useRef, useState } from "react";
-import { initialTodos, todoReducer } from "./store/todoReducer";
 import Heading from "./components/Heading";
 import Box from "./components/Box";
 import List from "./components/List";
 import "./App.css";
 import Incrementor from "./components/Incrementor";
-import { useNumber } from "./hooks/hooks";
+import { useNumber } from "./hooks/useNumber.hook";
 import Button from "./components/Button";
+import { useTodos } from "./hooks/useTodos.hook";
 
 function App() {
   const newTodoRef = useRef<HTMLInputElement>(null);
   const [payload, setPayload] = useState<Payload | null>(null);
-  const [value, setValue] = useNumber(0);
-  const [todos, dispatch] = useReducer(todoReducer, initialTodos);
+  const [value, setValue] = useNumber();
+  const { todos, addTodo, removeTodo } = useTodos();
 
   const onItemClick = useCallback((item: string) => {
     alert(item);
@@ -20,13 +20,10 @@ function App() {
 
   const onAddTodo = useCallback(() => {
     if (newTodoRef.current && newTodoRef.current.value) {
-      dispatch({
-        type: "ADD",
-        text: newTodoRef.current.value,
-      });
+      addTodo(newTodoRef.current.value);
       newTodoRef.current.value = "";
     }
-  }, []);
+  }, [addTodo]);
 
   useEffect(() => {
     setPayload({
@@ -47,12 +44,7 @@ function App() {
         return (
           <div key={todo.id}>
             {todo.text}
-            <Button
-              style={{
-                border: "1px solid green",
-              }}
-              onClick={() => dispatch({ type: "REMOVE", id: todo.id })}
-            >
+            <Button style={{ border: "1px solid green" }} onClick={() => removeTodo(todo.id)}>
               Remove
             </Button>
           </div>

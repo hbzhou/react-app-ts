@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
+import { useTodoContext } from "./AppWrapperContext";
 import Box from "./components/Box";
 import Button from "./components/Button";
 import Heading from "./components/Heading";
@@ -7,13 +8,12 @@ import Incrementor from "./components/Incrementor";
 import List from "./components/List";
 import UL from "./components/UL";
 import { useNumber } from "./hooks/useNumber.hook";
-import { useTodos } from "./hooks/useTodos.hook";
 
 function App() {
   const newTodoRef = useRef<HTMLInputElement>(null);
   const [payload, setPayload] = useState<Payload | null>(null);
   const [value, setValue] = useNumber();
-  const { todos, addTodo, removeTodo } = useTodos();
+  const { todos, addTodo, removeTodo } = useTodoContext();
 
   const onItemClick = useCallback((item: string) => {
     alert(item);

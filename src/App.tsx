@@ -4,10 +4,13 @@ import Heading from "./components/Heading";
 import Box from "./components/Box";
 import List from "./components/List";
 import "./App.css";
+import Incrementor from "./components/Incrementor";
+import { useNumber } from "./hooks/hooks";
 
 function App() {
-  const [payload, setPayload] = useState<Payload | null>(null);
   const newTodoRef = useRef<HTMLInputElement>(null);
+  const [payload, setPayload] = useState<Payload | null>(null);
+  const [value, setValue] = useNumber(0);
   const [todos, dispatch] = useReducer(todoReducer, initialTodos);
 
   const onItemClick = useCallback((item: string) => {
@@ -37,6 +40,7 @@ function App() {
       <Box>Hello there</Box>
       <List items={["one", "two", "three"]} onClick={onItemClick}></List>
       <Box>{JSON.stringify(payload)}</Box>
+      <Incrementor value={value} setValue={setValue} />
       <Heading title='Todos' />
       {todos.map((todo) => {
         return (
